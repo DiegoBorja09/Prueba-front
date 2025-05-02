@@ -1,0 +1,64 @@
+<div class="container mt-5">
+    <h2 class="mb-4">Administrar Préstamos</h2>
+  
+    <div *ngIf="loading" class="text-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  
+    <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+  
+    <table *ngIf="!loading && loans.length" class="table table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Monto</th>
+          <th>Plazo</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let loan of loans">
+          <td>{{ loan.id }}</td>
+          <td>{{ loan.userId }}</td>
+          <td>{{ loan.amount | currency }}</td>
+          <td>{{ loan.termMonths }}</td>
+          <td>
+            <span 
+              [ngClass]="{
+                'badge bg-warning': loan.status === 'PENDING',
+                'badge bg-success': loan.status === 'APPROVED',
+                'badge bg-danger': loan.status === 'REJECTED'
+              }"
+            >
+              {{ loan.status }}
+            </span>
+          </td>
+          <td>
+            <button 
+              class="btn btn-sm btn-success me-1"
+              (click)="approve(loan)"
+              [disabled]="loan.status !== 'PENDING'"
+            >
+              Aprobar
+            </button>
+            <button 
+              class="btn btn-sm btn-danger"
+              (click)="reject(loan)"
+              [disabled]="loan.status !== 'PENDING'"
+            >
+              Rechazar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div *ngIf="!loading && !loans.length" class="alert alert-info">
+      No hay préstamos para administrar.
+    </div>
+  </div>
+  

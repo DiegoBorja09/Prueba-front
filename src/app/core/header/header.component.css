@@ -1,0 +1,9 @@
+/* que la navbar siempre esté arriba */
+:host {
+    display: block;
+    margin-bottom: 1rem;
+  }
+  body {
+    /* Ajusta este valor a la altura real de tu barra */
+    padding-top: 56px;
+  }
